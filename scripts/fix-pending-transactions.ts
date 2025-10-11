@@ -44,5 +44,12 @@ async function fixPendingTransactions() {
   console.log('\n🎉 All pending transactions have been fixed!');
 }
 
-
+fixPendingTransactions()
+  .catch((error) => {
+    console.error('❌ Error:', error);
+    process.exit(1);
+  })
+  .finally(async () => {
+    await prisma.$disconnect();
+  });
 
