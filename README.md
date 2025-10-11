@@ -1,3 +1,12 @@
+![App Screenshot](public/1.jpg) 
+![App Screenshot](public/2.jpg)
+![App Screenshot](public/3.jpg)
+![App Screenshot](public/4.jpg) 
+![App Screenshot](public/5.jpg) 
+![App Screenshot](public/6.jpg) 
+![App Screenshot](public/7.jpg) 
+![App Screenshot](public/8.jpg) 
+
 # NuxWallet - Professional Digital Wallet System
 
 <div align="center">
@@ -167,7 +176,25 @@ cd NuxWallet-Payment-Happens-In-Just-A-Click-master
 npm install
 ```
 
-### 3. Set Up the Database
+### 3. Configure Environment Variables
+
+Create a `.env.local` file in the root directory:
+
+```env
+DATABASE_URL="file:./dev.db"
+STRIPE_SECRET_KEY="sk_test_your_stripe_secret_key"
+NuxT_PUBLIC_STRIPE_PUBLISHABLE_KEY="pk_test_your_stripe_publishable_key"
+STRIPE_WEBHOOK_SECRET="whsec_your_webhook_secret"
+```
+
+**Get your Stripe keys:**
+
+1. Go to [Stripe Dashboard](https://dashboard.stripe.com/test/apikeys)
+2. Copy your **Publishable key** and **Secret key**
+3. Replace the placeholder values in `.env.local`
+
+
+### 4. Set Up the Database
 
 Run Prisma migrations:
 
@@ -181,7 +208,7 @@ This will:
 - Generate the Prisma Client
 - Set up User, Transaction, and SavedCard tables
 
-### 4. Configure Stripe Webhooks (Local Development)
+### 5. Configure Stripe Webhooks (Local Development)
 
 Open a new terminal and run:
 
@@ -197,7 +224,7 @@ STRIPE_WEBHOOK_SECRET="whsec_your_webhook_secret_from_cli"
 
 **Keep this terminal window open while testing payments.**
 
-### 5. Run the Development Server
+### 6. Run the Development Server
 
 ```bash
 npm run dev
