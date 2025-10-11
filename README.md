@@ -1,3 +1,4 @@
+![App Screenshot](public/1.jpg) 
 # NuxWallet - Professional Digital Wallet System
 
 <div align="center">
