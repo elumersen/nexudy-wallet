@@ -1,4 +1,10 @@
 ![App Screenshot](public/1.jpg) 
+![App Screenshot](public/2.jpg)
+![App Screenshot](public/3.jpg)
+![App Screenshot](public/4.jpg) 
+![App Screenshot](public/5.jpg) 
+![App Screenshot](public/6.jpg) 
+![App Screenshot](public/7.jpg) 
 # NuxWallet - Professional Digital Wallet System
 
 <div align="center">
