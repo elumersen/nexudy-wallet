@@ -1,0 +1,61 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String      @id @default(cuid())
+  email     String      @unique
+  fullname  String
+  password  String
+  balance   Int         @default(0) // Stored in cents to avoid floating point issues
+  stripeCustomerId String? @unique // Stripe customer ID
+  createdAt DateTime    @default(now())
+  transactions Transaction[]
+  savedCards SavedCard[]
+}
+
+model Transaction {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  amount    Int         // Stored in cents
+  type      TransactionType
+  status    TransactionStatus
+  stripePaymentIntentId String? @unique // For top-up transactions
+  createdAt DateTime    @default(now())
+}
+
+model SavedCard {
+  id        String      @id @default(cuid())
+  userId    String
+  user      User        @relation(fields: [userId], references: [id])
+  stripePaymentMethodId String @unique
+  last4     String
+  brand     String
+  expMonth  Int
+  expYear   Int
+  isDefault Boolean     @default(false)
+  createdAt DateTime    @default(now())
+}
+
+enum TransactionType {
+  TOPUP
+  WITHDRAWAL
+}
+
+enum TransactionStatus {
+  PENDING
+  COMPLETED
+  FAILED
+}
