@@ -43,12 +43,10 @@ export default function SigninPage() {
         return;
       }
 
-      // Save user to localStorage
       setUser(data.user);
-      
+
       setToast({ message: "Welcome back!", type: "success" });
-      
-      // Redirect to dashboard after a short delay
+
       setTimeout(() => {
         router.push("/");
       }, 1000);
@@ -80,14 +78,13 @@ export default function SigninPage() {
           <div>
             <CardTitle className="text-3xl font-bold">Welcome Back</CardTitle>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Sign in to your NexWallet account
+              Sign in to your NuxWallet account
             </p>
           </div>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-base font-medium">
                 Email Address
@@ -109,7 +106,6 @@ export default function SigninPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-base font-medium">
                 Password
@@ -131,7 +127,6 @@ export default function SigninPage() {
               </div>
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               disabled={loading}
@@ -148,7 +143,6 @@ export default function SigninPage() {
             </Button>
           </form>
 
-          {/* Sign Up Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Don't have an account?{" "}
@@ -165,4 +159,3 @@ export default function SigninPage() {
     </div>
   );
 }
-

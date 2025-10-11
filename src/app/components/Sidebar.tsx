@@ -34,15 +34,14 @@ export default function Sidebar({ className }: SidebarProps) {
   useEffect(() => {
     const checkMobile = () => {
       setIsMobile(window.innerWidth < 1024);
-      // On mobile, always start collapsed (hidden)
       if (window.innerWidth < 1024) {
         setIsCollapsed(true);
       }
     };
-    
+
     checkMobile();
-    window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+    window.addEventListener("resize", checkMobile);
+    return () => window.removeEventListener("resize", checkMobile);
   }, []);
 
   const navItems = [
@@ -60,7 +59,6 @@ export default function Sidebar({ className }: SidebarProps) {
 
   return (
     <>
-      {/* Overlay for mobile when sidebar is open */}
       {!isCollapsed && isMobile && (
         <div
           className="lg:hidden fixed inset-0 bg-black/60 backdrop-blur-sm z-30"
@@ -68,26 +66,23 @@ export default function Sidebar({ className }: SidebarProps) {
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={cn(
           "fixed left-0 top-0 h-full bg-white dark:bg-gray-950 border-r border-gray-200 dark:border-gray-800 z-40 transition-all duration-300 ease-in-out",
           isCollapsed ? "w-20" : "w-72",
-          // On mobile, hide completely when collapsed
           isMobile && isCollapsed && "-translate-x-full",
           className
         )}
       >
         <div className="flex flex-col h-full">
-          {/* Header with Logo and Toggle */}
-          <div className={cn("p-6 border-b border-gray-100 dark:border-gray-900", isCollapsed && "px-4")}>
-            {/* Toggle Button at Top */}
+          <div
+            className={cn(
+              "p-6 border-b border-gray-100 dark:border-gray-900",
+              isCollapsed && "px-4"
+            )}
+          >
             <div className="flex items-center justify-between mb-4">
-              {!isCollapsed && (
-                <div className="min-w-0 flex-1">
-                  {/* Spacer when expanded */}
-                </div>
-              )}
+              {!isCollapsed && <div className="min-w-0 flex-1"></div>}
               <button
                 onClick={() => setIsCollapsed(!isCollapsed)}
                 className={cn(
@@ -104,11 +99,10 @@ export default function Sidebar({ className }: SidebarProps) {
               </button>
             </div>
 
-            {/* Logo/Brand */}
             {!isCollapsed && (
               <div className="min-w-0">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white truncate">
-                  NexWallet
+                  NuxWallet
                 </h1>
                 <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
                   Digital Banking
@@ -117,7 +111,6 @@ export default function Sidebar({ className }: SidebarProps) {
             )}
           </div>
 
-          {/* Navigation */}
           <nav className="flex-1 px-3 pt-4 overflow-y-auto">
             <div className="space-y-1">
               {navItems.map((item) => {
@@ -151,7 +144,6 @@ export default function Sidebar({ className }: SidebarProps) {
             </div>
           </nav>
 
-          {/* Logout Button */}
           <div className="p-3 border-t border-gray-200 dark:border-gray-800">
             <button
               onClick={handleLogout}
@@ -162,15 +154,12 @@ export default function Sidebar({ className }: SidebarProps) {
               )}
             >
               <LogOut className="w-5 h-5 flex-shrink-0" />
-              {!isCollapsed && (
-                <span className="text-sm">Logout</span>
-              )}
+              {!isCollapsed && <span className="text-sm">Logout</span>}
             </button>
           </div>
         </div>
       </aside>
 
-      {/* Mobile menu button - only show when sidebar is collapsed on mobile */}
       {isMobile && isCollapsed && (
         <button
           onClick={() => setIsCollapsed(false)}
@@ -182,4 +171,3 @@ export default function Sidebar({ className }: SidebarProps) {
     </>
   );
 }
-

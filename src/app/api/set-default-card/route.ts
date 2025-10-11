@@ -18,13 +18,11 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Unset all default cards
     await prisma.savedCard.updateMany({
       where: { userId: user.id },
       data: { isDefault: false },
     });
 
-    // Set the selected card as default
     const card = await prisma.savedCard.update({
       where: { id: cardId },
       data: { isDefault: true },

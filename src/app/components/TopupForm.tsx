@@ -50,7 +50,9 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
         const data = await response.json();
         if (data.savedCards && data.savedCards.length > 0) {
           setSavedCards(data.savedCards);
-          const defaultCard = data.savedCards.find((c: SavedCard) => c.isDefault);
+          const defaultCard = data.savedCards.find(
+            (c: SavedCard) => c.isDefault
+          );
           if (defaultCard) {
             setSelectedCardId(defaultCard.id);
           } else {
@@ -121,9 +123,10 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
         return;
       }
 
-      const { error: stripeError, paymentIntent } = await stripe.confirmCardPayment(clientSecret, {
-        payment_method: selectedCard.stripePaymentMethodId,
-      });
+      const { error: stripeError, paymentIntent } =
+        await stripe.confirmCardPayment(clientSecret, {
+          payment_method: selectedCard.stripePaymentMethodId,
+        });
 
       if (stripeError) {
         console.error("Stripe payment error:", stripeError);
@@ -171,7 +174,7 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
       mastercard: "from-red-600 to-orange-600",
       amex: "from-blue-700 to-blue-900",
       discover: "from-orange-500 to-orange-700",
-      default: "from-gray-700 to-gray-900"
+      default: "from-gray-700 to-gray-900",
     };
     return colors[brand.toLowerCase()] || colors.default;
   };
@@ -183,31 +186,30 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
           <div className="h-7 w-32 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-lg animate-shimmer bg-[length:200%_100%]"></div>
         </CardHeader>
         <CardContent className="space-y-6">
-          {/* Amount skeleton */}
           <div className="space-y-2">
             <div className="h-4 w-16 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded animate-shimmer bg-[length:200%_100%]"></div>
             <div className="h-14 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-xl animate-shimmer bg-[length:200%_100%]"></div>
             <div className="flex gap-2">
               {[1, 2, 3, 4].map((i) => (
-                <div key={i} className="flex-1 h-9 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-lg animate-shimmer bg-[length:200%_100%]"></div>
+                <div
+                  key={i}
+                  className="flex-1 h-9 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-lg animate-shimmer bg-[length:200%_100%]"
+                ></div>
               ))}
             </div>
           </div>
-          
-          {/* Payment method skeleton */}
+
           <div className="space-y-3">
             <div className="h-4 w-32 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded animate-shimmer bg-[length:200%_100%]"></div>
             <div className="h-20 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-xl animate-shimmer bg-[length:200%_100%]"></div>
           </div>
 
-          {/* Button skeleton */}
           <div className="h-12 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-xl animate-shimmer bg-[length:200%_100%]"></div>
         </CardContent>
       </Card>
     );
   }
 
-  // No saved cards - show add card prompt
   if (savedCards.length === 0) {
     return (
       <>
@@ -256,9 +258,10 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-6">
-            {/* Amount Input */}
             <div className="space-y-2">
-              <Label htmlFor="amount" className="text-base font-medium">Amount</Label>
+              <Label htmlFor="amount" className="text-base font-medium">
+                Amount
+              </Label>
               <div className="relative">
                 <span className="absolute left-4 top-1/2 -translate-y-1/2 text-2xl font-semibold text-gray-600 dark:text-gray-400">
                   $
@@ -275,7 +278,6 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
                   className="pl-10 text-2xl font-semibold h-14 border-2"
                 />
               </div>
-              {/* Quick amounts */}
               <div className="flex gap-2 pt-2">
                 {[10, 25, 50, 100].map((amt) => (
                   <Button
@@ -293,17 +295,21 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
               </div>
             </div>
 
-            {/* Payment Method Selection */}
             <div className="space-y-3">
               <div className="flex items-center justify-between">
                 <Label className="text-base font-medium">Payment Method</Label>
                 <Link href="/cards">
-                  <Button type="button" variant="ghost" size="sm" className="text-green-600">
+                  <Button
+                    type="button"
+                    variant="ghost"
+                    size="sm"
+                    className="text-green-600"
+                  >
                     Manage Cards
                   </Button>
                 </Link>
               </div>
-              
+
               <div className="space-y-2">
                 {savedCards.map((card) => (
                   <button
@@ -318,7 +324,11 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
                     }`}
                   >
                     <div className="flex items-center gap-3">
-                      <div className={`w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center flex-shrink-0 ${getBrandColor(card.brand)}`}>
+                      <div
+                        className={`w-12 h-12 rounded-lg bg-gradient-to-br flex items-center justify-center flex-shrink-0 ${getBrandColor(
+                          card.brand
+                        )}`}
+                      >
                         <CreditCard className="w-6 h-6 text-white" />
                       </div>
                       <div className="flex-1 min-w-0">
@@ -338,8 +348,18 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
                       </div>
                       {selectedCardId === card.id && (
                         <div className="w-5 h-5 rounded-full bg-green-600 flex items-center justify-center flex-shrink-0">
-                          <svg className="w-3 h-3 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={3} d="M5 13l4 4L19 7" />
+                          <svg
+                            className="w-3 h-3 text-white"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              strokeWidth={3}
+                              d="M5 13l4 4L19 7"
+                            />
                           </svg>
                         </div>
                       )}
@@ -349,7 +369,6 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
               </div>
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               disabled={!stripe || processing || !amount || !selectedCardId}

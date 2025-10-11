@@ -2,7 +2,6 @@ import { NextRequest, NextResponse } from "next/server";
 import { stripe } from "@/lib/stripe";
 import { prisma } from "@/lib/prisma";
 
-// GET - List all saved cards for a user
 export async function GET(req: NextRequest) {
   try {
     const email = req.nextUrl.searchParams.get("email");
@@ -30,7 +29,6 @@ export async function GET(req: NextRequest) {
   }
 }
 
-// POST - Save a new card after setup intent confirmation
 export async function POST(req: NextRequest) {
   try {
     const { email, paymentMethodId } = await req.json();
@@ -48,7 +46,6 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Get payment method details from Stripe
     const paymentMethod = await stripe.paymentMethods.retrieve(paymentMethodId);
 
     if (!paymentMethod.card) {
@@ -58,14 +55,12 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if this is the first card
     const existingCards = await prisma.savedCard.findMany({
       where: { userId: user.id },
     });
 
     const isFirstCard = existingCards.length === 0;
 
-    // Save card to database
     const savedCard = await prisma.savedCard.create({
       data: {
         userId: user.id,
@@ -74,7 +69,7 @@ export async function POST(req: NextRequest) {
         brand: paymentMethod.card.brand,
         expMonth: paymentMethod.card.exp_month,
         expYear: paymentMethod.card.exp_year,
-        isDefault: isFirstCard, // First card is default
+        isDefault: isFirstCard,
       },
     });
 
@@ -88,7 +83,6 @@ export async function POST(req: NextRequest) {
   }
 }
 
-// DELETE - Remove a saved card
 export async function DELETE(req: NextRequest) {
   try {
     const cardId = req.nextUrl.searchParams.get("cardId");
@@ -115,15 +109,12 @@ export async function DELETE(req: NextRequest) {
       return NextResponse.json({ error: "Card not found" }, { status: 404 });
     }
 
-    // Detach payment method from Stripe
     await stripe.paymentMethods.detach(card.stripePaymentMethodId);
 
-    // Delete from database
     await prisma.savedCard.delete({
       where: { id: cardId },
     });
 
-    // If this was the default card, set another card as default
     if (card.isDefault) {
       const remainingCards = await prisma.savedCard.findMany({
         where: { userId: user.id },

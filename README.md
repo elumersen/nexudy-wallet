@@ -1,8 +1,8 @@
-# NexWallet - Professional Digital Wallet System
+# NuxWallet - Professional Digital Wallet System
 
 <div align="center">
 
-![NexWallet](https://img.shields.io/badge/NexWallet-Digital%20Banking-green?style=for-the-badge)
+![NuxWallet](https://img.shields.io/badge/NuxWallet-Digital%20Banking-green?style=for-the-badge)
 ![Next.js](https://img.shields.io/badge/Next.js-14-black?style=for-the-badge&logo=next.js)
 ![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue?style=for-the-badge&logo=typescript)
 ![Stripe](https://img.shields.io/badge/Stripe-Payment-purple?style=for-the-badge&logo=stripe)
@@ -18,6 +18,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 ## Features
 
 ### Authentication System
+
 - **User Registration**: Secure signup with fullname, email, and password
 - **User Login**: Email and password authentication
 - **Session Management**: Client-side session storage
@@ -25,6 +26,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 - **Personalized Experience**: Welcome message with user's full name
 
 ### Card Management
+
 - **Realistic Card Design**: Credit card-style UI with brand-specific gradients
   - Visa (Blue gradient)
   - Mastercard (Red-orange gradient)
@@ -37,6 +39,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 - **Stripe Integration**: Secure card tokenization via Stripe
 
 ### Wallet Features
+
 - **Real-time Balance**: Live wallet balance display
 - **Quick Top-Up**: Fast wallet recharge using saved cards
 - **Transaction History**: Complete history of all transactions
@@ -44,6 +47,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 - **Auto-Update**: Balance updates automatically after successful payments
 
 ### Modern UI/UX
+
 - **Shadcn/ui Components**: Professional, accessible components
 - **Responsive Design**: Seamless experience on mobile, tablet, and desktop
 - **Sidebar Navigation**: Easy access to Dashboard, Cards, and Transactions
@@ -52,6 +56,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 - **Smooth Animations**: Polished transitions and hover effects
 
 ### Dashboard
+
 - **Welcome Banner**: Personalized greeting
 - **Balance Overview**: Prominent balance card with gradient
 - **Quick Actions**: Direct links to manage cards and view transactions
@@ -63,6 +68,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 ## Tech Stack
 
 ### Frontend
+
 - **Framework**: Next.js 14 (App Router)
 - **Language**: TypeScript
 - **Styling**: Tailwind CSS
@@ -71,12 +77,14 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 - **Forms**: Stripe Elements
 
 ### Backend
+
 - **API**: Next.js API Routes
 - **ORM**: Prisma
 - **Database**: SQLite (Dev) / PostgreSQL (Production)
 - **Authentication**: Custom JWT-less session management
 
 ### Payment Processing
+
 - **Provider**: Stripe
 - **Features**: Payment Intents, Setup Intents, Payment Methods
 - **Security**: Webhook signature verification
@@ -168,6 +176,7 @@ npx prisma migrate dev --name init
 ```
 
 This will:
+
 - Create a `dev.db` SQLite database
 - Generate the Prisma Client
 - Set up User, Transaction, and SavedCard tables
@@ -203,12 +212,14 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Getting Started
 
 #### 1. Sign Up
+
 1. Navigate to `http://localhost:3000`
 2. Click "Sign Up" or visit `/signup`
 3. Enter your full name, email, and password (min 6 characters)
 4. Click "Create Account"
 
 #### 2. Sign In
+
 1. After signup, you'll be redirected to `/signin`
 2. Enter your email and password
 3. Click "Sign In"
@@ -217,6 +228,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 ### Dashboard Overview
 
 The dashboard displays:
+
 - **Welcome message** with your full name
 - **Balance card** showing available funds
 - **Top-up form** to add money (requires saved card)
@@ -244,15 +256,14 @@ The dashboard displays:
 
 Use these Stripe test cards:
 
-| Card Number         | Brand      | Result              |
-|---------------------|------------|---------------------|
-| 4242 4242 4242 4242 | Visa       | ✅ Success          |
-| 5555 5555 5555 4444 | Mastercard | ✅ Success          |
-| 3782 822463 10005   | Amex       | ✅ Success          |
-| 4000 0000 0000 0002 | Visa       | ❌ Declined         |
-| 4000 0000 0000 9995 | Visa       | ❌ Insufficient     |
-| 4000 0000 0000 3220 | 3DS        | 🔐 authentication needed|
-
+| Card Number         | Brand      | Result                   |
+| ------------------- | ---------- | ------------------------ |
+| 4242 4242 4242 4242 | Visa       | ✅ Success               |
+| 5555 5555 5555 4444 | Mastercard | ✅ Success               |
+| 3782 822463 10005   | Amex       | ✅ Success               |
+| 4000 0000 0000 0002 | Visa       | ❌ Declined              |
+| 4000 0000 0000 9995 | Visa       | ❌ Insufficient          |
+| 4000 0000 0000 3220 | 3DS        | 🔐 authentication needed |
 
 - **Expiry**: Any future date (e.g., 12/28)
 - **CVC**: Any 3 digits (e.g., 123)
@@ -263,6 +274,7 @@ More test cards: [Stripe Testing Docs](https://stripe.com/docs/testing)
 ### Managing Cards
 
 On the **Cards** page, you can:
+
 - **View all saved cards** in a grid layout
 - **Set default card**: Hover over a card and click "Set Default"
 - **Remove card**: Hover over a card and click "Remove"
@@ -283,9 +295,11 @@ The default card will have a "DEFAULT" badge and will be preselected for top-ups
 ### Viewing Transactions
 
 **Option 1: Dashboard (Recent)**
+
 - View last 5 transactions on the dashboard
 
 **Option 2: Transactions Page (Full History)**
+
 1. Click **"Transactions"** in sidebar or "View All" link
 2. See complete transaction history
 3. Each transaction shows:
@@ -308,9 +322,11 @@ The default card will have a "DEFAULT" badge and will be preselected for top-ups
 ### Authentication
 
 #### POST `/api/auth/signup`
+
 Register a new user.
 
 **Request:**
+
 ```json
 {
   "fullname": "John Doe",
@@ -320,6 +336,7 @@ Register a new user.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -333,9 +350,11 @@ Register a new user.
 ```
 
 #### POST `/api/auth/signin`
+
 Authenticate a user.
 
 **Request:**
+
 ```json
 {
   "email": "john@example.com",
@@ -344,6 +363,7 @@ Authenticate a user.
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -359,9 +379,11 @@ Authenticate a user.
 ### Wallet
 
 #### GET `/api/balance`
+
 Get current user's balance.
 
 **Response:**
+
 ```json
 {
   "balance": 5000
@@ -369,9 +391,11 @@ Get current user's balance.
 ```
 
 #### POST `/api/topup`
+
 Create payment intent for top-up.
 
 **Request:**
+
 ```json
 {
   "amount": 2500,
@@ -380,6 +404,7 @@ Create payment intent for top-up.
 ```
 
 **Response:**
+
 ```json
 {
   "clientSecret": "pi_xxxxx_secret_xxxxx"
@@ -387,9 +412,11 @@ Create payment intent for top-up.
 ```
 
 #### GET `/api/transactions`
+
 Get all transactions.
 
 **Response:**
+
 ```json
 {
   "transactions": [
@@ -407,9 +434,11 @@ Get all transactions.
 ### Card Management
 
 #### POST `/api/setup-intent`
+
 Create setup intent for saving a card.
 
 **Request:**
+
 ```json
 {
   "email": "john@example.com"
@@ -417,6 +446,7 @@ Create setup intent for saving a card.
 ```
 
 **Response:**
+
 ```json
 {
   "clientSecret": "seti_xxxxx_secret_xxxxx"
@@ -424,9 +454,11 @@ Create setup intent for saving a card.
 ```
 
 #### GET `/api/saved-cards?email=john@example.com`
+
 Get all saved cards for a user.
 
 **Response:**
+
 ```json
 {
   "savedCards": [
@@ -443,9 +475,11 @@ Get all saved cards for a user.
 ```
 
 #### POST `/api/saved-cards`
+
 Save a new card.
 
 **Request:**
+
 ```json
 {
   "email": "john@example.com",
@@ -454,12 +488,15 @@ Save a new card.
 ```
 
 #### DELETE `/api/saved-cards?cardId=xxx&email=john@example.com`
+
 Remove a saved card.
 
 #### POST `/api/set-default-card`
+
 Set a card as default.
 
 **Request:**
+
 ```json
 {
   "email": "john@example.com",
@@ -470,9 +507,11 @@ Set a card as default.
 ### Webhooks
 
 #### POST `/api/stripe-webhook`
+
 Handle Stripe webhook events.
 
 **Events:**
+
 - `payment_intent.succeeded`: Update balance and transaction status
 - `payment_intent.payment_failed`: Mark transaction as failed
 
@@ -535,6 +574,7 @@ enum TransactionStatus {
 ### 1. Update Environment Variables
 
 For production:
+
 - Use **production** Stripe keys (remove `_test_`)
 - Use a production database (PostgreSQL recommended)
 - Set up a real webhook endpoint
@@ -548,6 +588,7 @@ DATABASE_URL="postgresql://user:password@host:5432/dbname"
 ```
 
 Run migrations:
+
 ```bash
 npx prisma migrate deploy
 ```
@@ -576,24 +617,29 @@ Or connect your GitHub repo to Vercel for automatic deployments.
 ## Troubleshooting
 
 ### Hydration Errors
+
 - **Issue**: "Hydration failed" errors in console
 - **Fix**: Already implemented - pages use `useEffect` to load user data client-side
 
 ### Payments Not Updating Balance
+
 - Ensure Stripe CLI is running: `stripe listen --forward-to localhost:3000/api/stripe-webhook`
 - Check `STRIPE_WEBHOOK_SECRET` in `.env.local`
 - Verify events in Stripe CLI terminal
 
 ### Cards Not Saving
+
 - Check browser console for errors
 - Verify Stripe keys are correct
 - Ensure Setup Intent is created successfully
 
 ### Database Errors
+
 - Regenerate Prisma Client: `npx prisma generate`
 - Reset database: `npx prisma migrate reset --force`
 
 ### TypeScript Errors
+
 - Install dependencies: `npm install`
 - Restart dev server: `npm run dev`
 
@@ -602,19 +648,19 @@ Or connect your GitHub repo to Vercel for automatic deployments.
 ## Design System
 
 ### Colors
+
 - **Primary**: Green (#16a34a)
 - **Success**: Green (#22c55e)
 - **Error**: Red (#ef4444)
 - **Warning**: Orange (#f97316)
 
 ### Card Brand Gradients
+
 - **Visa**: Blue (from-blue-600 to-blue-800)
 - **Mastercard**: Red-Orange (from-red-600 to-orange-600)
 - **Amex**: Deep Blue (from-blue-700 to-blue-900)
 - **Discover**: Orange (from-orange-500 to-orange-700)
 
 ### Components
+
 All UI components use [Shadcn/ui](https://ui.shadcn.com/) for consistency and accessibility.
-
-
-

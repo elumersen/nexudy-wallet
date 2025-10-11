@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Check if user already exists
     const existingUser = await prisma.user.findUnique({
       where: { email },
     });
@@ -24,11 +23,8 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // For simplicity, we'll use a basic hash function
-    // In production, use bcrypt or similar
     const hashedPassword = Buffer.from(password).toString('base64');
 
-    // Create new user
     const user = await prisma.user.create({
       data: {
         email,
@@ -38,7 +34,6 @@ export async function POST(req: NextRequest) {
       },
     });
 
-    // Return user data without password
     return NextResponse.json({
       success: true,
       user: {

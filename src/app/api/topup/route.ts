@@ -26,14 +26,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    // Create payment intent with customer ID if available
     const paymentIntentData: any = {
       amount: amount,
       currency: 'usd',
       metadata: { userId: user.id },
     };
 
-    // If user has a Stripe customer ID, include it
     if (user.stripeCustomerId) {
       paymentIntentData.customer = user.stripeCustomerId;
     }

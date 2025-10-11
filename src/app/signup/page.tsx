@@ -44,12 +44,10 @@ export default function SignupPage() {
         return;
       }
 
-      // Save user to localStorage
       setUser(data.user);
-      
+
       setToast({ message: "Account created successfully!", type: "success" });
-      
-      // Redirect to dashboard after a short delay
+
       setTimeout(() => {
         router.push("/");
       }, 1000);
@@ -81,14 +79,13 @@ export default function SignupPage() {
           <div>
             <CardTitle className="text-3xl font-bold">Create Account</CardTitle>
             <p className="text-gray-600 dark:text-gray-400 mt-2">
-              Join NexWallet and start managing your finances
+              Join NuxWallet and start managing your finances
             </p>
           </div>
         </CardHeader>
 
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-5">
-            {/* Full Name */}
             <div className="space-y-2">
               <Label htmlFor="fullname" className="text-base font-medium">
                 Full Name
@@ -110,7 +107,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* Email */}
             <div className="space-y-2">
               <Label htmlFor="email" className="text-base font-medium">
                 Email Address
@@ -132,7 +128,6 @@ export default function SignupPage() {
               </div>
             </div>
 
-            {/* Password */}
             <div className="space-y-2">
               <Label htmlFor="password" className="text-base font-medium">
                 Password
@@ -158,7 +153,6 @@ export default function SignupPage() {
               </p>
             </div>
 
-            {/* Submit Button */}
             <Button
               type="submit"
               disabled={loading}
@@ -175,7 +169,6 @@ export default function SignupPage() {
             </Button>
           </form>
 
-          {/* Sign In Link */}
           <div className="mt-6 text-center">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               Already have an account?{" "}
@@ -192,4 +185,3 @@ export default function SignupPage() {
     </div>
   );
 }
-

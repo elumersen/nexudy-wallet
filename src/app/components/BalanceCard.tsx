@@ -37,8 +37,7 @@ export default function BalanceCard({ balance }: BalanceCardProps) {
             <Wallet className="w-6 h-6 text-white" />
           </div>
         </div>
-        
-        {/* Optional: Add a small stat or info */}
+
         <div className="flex items-center gap-1.5 text-sm text-green-700 dark:text-green-300">
           <TrendingUp className="w-4 h-4" />
           <span className="font-medium">Ready to use</span>

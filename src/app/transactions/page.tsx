@@ -25,12 +25,14 @@ export default function TransactionsPage() {
       router.push("/signin");
       return;
     }
-    
+
     setUser(currentUser);
 
     const fetchTransactions = async () => {
       try {
-        const response = await fetch(`/api/transactions?email=${encodeURIComponent(currentUser.email)}`);
+        const response = await fetch(
+          `/api/transactions?email=${encodeURIComponent(currentUser.email)}`
+        );
         const data = await response.json();
         setTransactions(data.transactions);
       } catch (error) {
@@ -47,13 +49,11 @@ export default function TransactionsPage() {
     return (
       <div className="min-h-screen p-6 lg:p-8">
         <div className="max-w-full lg:max-w-7xl mx-auto space-y-6">
-          {/* Header skeleton */}
           <div className="space-y-2">
             <div className="h-9 w-64 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded-lg animate-shimmer bg-[length:200%_100%]"></div>
             <div className="h-5 w-48 bg-gradient-to-r from-gray-200 via-gray-100 to-gray-200 dark:from-gray-800 dark:via-gray-700 dark:to-gray-800 rounded animate-shimmer bg-[length:200%_100%]"></div>
           </div>
 
-          {/* Transactions skeleton */}
           <div className="border-2 rounded-xl overflow-hidden divide-y divide-gray-100 dark:divide-gray-900">
             {[1, 2, 3, 4, 5].map((i) => (
               <div key={i} className="p-4">
@@ -95,4 +95,3 @@ export default function TransactionsPage() {
     </div>
   );
 }
-

@@ -5,10 +5,13 @@ interface CardBrandLogoProps {
   className?: string;
 }
 
-export default function CardBrandLogo({ brand, className = "h-8" }: CardBrandLogoProps) {
+export default function CardBrandLogo({
+  brand,
+  className = "h-8",
+}: CardBrandLogoProps) {
   const brandLower = brand.toLowerCase();
 
-  if (brandLower === 'visa') {
+  if (brandLower === "visa") {
     return (
       <Image
         src="/visa-svgrepo-com.svg"
@@ -20,7 +23,7 @@ export default function CardBrandLogo({ brand, className = "h-8" }: CardBrandLog
     );
   }
 
-  if (brandLower === 'mastercard') {
+  if (brandLower === "mastercard") {
     return (
       <Image
         src="/mastercard-svgrepo-com.svg"
@@ -32,7 +35,7 @@ export default function CardBrandLogo({ brand, className = "h-8" }: CardBrandLog
     );
   }
 
-  if (brandLower === 'amex' || brandLower === 'american express') {
+  if (brandLower === "amex" || brandLower === "american express") {
     return (
       <Image
         src="/amex-svgrepo-com.svg"
@@ -44,7 +47,7 @@ export default function CardBrandLogo({ brand, className = "h-8" }: CardBrandLog
     );
   }
 
-  if (brandLower === 'discover') {
+  if (brandLower === "discover") {
     return (
       <Image
         src="/icons8-discover-card.svg"
@@ -56,11 +59,9 @@ export default function CardBrandLogo({ brand, className = "h-8" }: CardBrandLog
     );
   }
 
-  // Default fallback - show text
   return (
     <div className={`${className} flex items-center`}>
       <span className="text-sm font-bold uppercase text-white/90">{brand}</span>
     </div>
   );
 }
-

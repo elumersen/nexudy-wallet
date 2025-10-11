@@ -12,7 +12,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Find user by email
     const user = await prisma.user.findUnique({
       where: { email },
     });
@@ -24,7 +23,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Verify password
     const hashedPassword = Buffer.from(password).toString('base64');
     
     if (user.password !== hashedPassword) {
@@ -34,7 +32,6 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    // Return user data without password
     return NextResponse.json({
       success: true,
       user: {

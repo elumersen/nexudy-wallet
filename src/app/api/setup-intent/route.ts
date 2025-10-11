@@ -10,16 +10,12 @@ export async function POST(req: NextRequest) {
       return NextResponse.json({ error: "Email is required" }, { status: 400 });
     }
 
-    // Find or create user
     let user = await prisma.user.findUnique({ where: { email } });
     
     if (!user) {
-      user = await prisma.user.create({
-        data: { email },
-      });
+      return NextResponse.json({ error: "User not found" }, { status: 404 });
     }
 
-    // Find or create Stripe customer
     let customerId = user.stripeCustomerId;
     
     if (!customerId) {
@@ -30,14 +26,12 @@ export async function POST(req: NextRequest) {
       
       customerId = customer.id;
       
-      // Update user with Stripe customer ID
       await prisma.user.update({
         where: { id: user.id },
         data: { stripeCustomerId: customerId },
       });
     }
 
-    // Create setup intent
     const setupIntent = await stripe.setupIntents.create({
       customer: customerId,
       payment_method_types: ["card"],
@@ -55,4 +49,3 @@ export async function POST(req: NextRequest) {
     );
   }
 }
-

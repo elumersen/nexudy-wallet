@@ -14,7 +14,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "NexWallet - Digital Wallet",
+  title: "NuxWallet - Digital Wallet",
   description: "Manage your digital wallet with ease",
 };
 

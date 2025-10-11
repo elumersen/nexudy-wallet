@@ -1,7 +1,13 @@
 "use client";
 
 import { useState, FormEvent } from "react";
-import { useStripe, useElements, CardNumberElement, CardExpiryElement, CardCvcElement } from "@stripe/react-stripe-js";
+import {
+  useStripe,
+  useElements,
+  CardNumberElement,
+  CardExpiryElement,
+  CardCvcElement,
+} from "@stripe/react-stripe-js";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -38,7 +44,6 @@ export default function AddCardModal({
     setToast(null);
 
     try {
-      // Create setup intent
       const setupResponse = await fetch("/api/setup-intent", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -53,7 +58,6 @@ export default function AddCardModal({
         return;
       }
 
-      // Confirm setup intent
       const cardElement = elements.getElement(CardNumberElement);
       if (!cardElement) {
         setToast({ message: "Card element not found", type: "error" });
@@ -78,7 +82,6 @@ export default function AddCardModal({
       }
 
       if (setupIntent?.payment_method) {
-        // Save card to database
         const saveResponse = await fetch("/api/saved-cards", {
           method: "POST",
           headers: { "Content-Type": "application/json" },
@@ -134,9 +137,11 @@ export default function AddCardModal({
         </CardHeader>
         <CardContent className="pt-6">
           <form onSubmit={handleSubmit} className="space-y-4">
-            {/* Card Number */}
             <div className="space-y-1.5">
-              <Label htmlFor="cardNumber" className="text-sm font-medium text-gray-900 dark:text-gray-100">
+              <Label
+                htmlFor="cardNumber"
+                className="text-sm font-medium text-gray-900 dark:text-gray-100"
+              >
                 Card number
               </Label>
               <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
@@ -161,11 +166,12 @@ export default function AddCardModal({
               </div>
             </div>
 
-            {/* Expiry and CVC */}
             <div className="grid grid-cols-2 gap-3">
-              {/* Expiry Date */}
               <div className="space-y-1.5">
-                <Label htmlFor="cardExpiry" className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                <Label
+                  htmlFor="cardExpiry"
+                  className="text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
                   Expiry
                 </Label>
                 <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
@@ -189,9 +195,11 @@ export default function AddCardModal({
                 </div>
               </div>
 
-              {/* CVC */}
               <div className="space-y-1.5">
-                <Label htmlFor="cardCvc" className="text-sm font-medium text-gray-900 dark:text-gray-100">
+                <Label
+                  htmlFor="cardCvc"
+                  className="text-sm font-medium text-gray-900 dark:text-gray-100"
+                >
                   CVC
                 </Label>
                 <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
@@ -216,7 +224,6 @@ export default function AddCardModal({
               </div>
             </div>
 
-            {/* Action Buttons */}
             <div className="flex gap-3 pt-6">
               <Button
                 type="button"
@@ -248,4 +255,3 @@ export default function AddCardModal({
     </div>
   );
 }
-
