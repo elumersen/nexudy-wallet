@@ -15,7 +15,7 @@ A full-stack digital wallet application with modern UI/UX, user authentication, 
 
 ---
 
-## ✨ Features
+## Features
 
 ### Authentication System
 - **User Registration**: Secure signup with fullname, email, and password
@@ -214,7 +214,7 @@ Open [http://localhost:3000](http://localhost:3000) in your browser.
 
 ---
 
-## 📖 Usage
+## Usage
 
 ### Getting Started
 
