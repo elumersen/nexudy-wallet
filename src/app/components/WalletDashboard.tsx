@@ -36,9 +36,15 @@ export default function WalletDashboard() {
         `/api/balance?email=${encodeURIComponent(userEmail)}`
       );
       const data = await response.json();
-      setBalance(data.balance);
+      // Ensure balance is a valid number, default to 0 if not
+      const balanceValue =
+        typeof data.balance === "number" && !isNaN(data.balance)
+          ? data.balance
+          : 0;
+      setBalance(balanceValue);
     } catch (error) {
       console.error("Error fetching balance:", error);
+      setBalance(0); // Set to 0 on error
     }
   };
 

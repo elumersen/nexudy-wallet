@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
+import bcrypt from "bcryptjs";
 
 export async function POST(req: NextRequest) {
   try {
@@ -23,9 +24,29 @@ export async function POST(req: NextRequest) {
       );
     }
 
-    const hashedPassword = Buffer.from(password).toString('base64');
+    // Verify password using bcrypt
+    // Handle both old base64 passwords and new bcrypt hashes for migration
+    let passwordValid = false;
     
-    if (user.password !== hashedPassword) {
+    // Check if password is stored as bcrypt hash (starts with $2a$ or $2b$)
+    if (user.password.startsWith('$2')) {
+      passwordValid = await bcrypt.compare(password, user.password);
+    } else {
+      // Legacy: check base64 encoding for existing users
+      const base64Password = Buffer.from(password).toString('base64');
+      passwordValid = user.password === base64Password;
+      
+      // If valid with old method, upgrade to bcrypt hash
+      if (passwordValid) {
+        const newHash = await bcrypt.hash(password, 10);
+        await prisma.user.update({
+          where: { id: user.id },
+          data: { password: newHash },
+        });
+      }
+    }
+    
+    if (!passwordValid) {
       return NextResponse.json(
         { error: "Invalid email or password" },
         { status: 401 }

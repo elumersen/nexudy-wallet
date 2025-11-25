@@ -9,11 +9,14 @@ interface BalanceCardProps {
 
 export default function BalanceCard({ balance }: BalanceCardProps) {
   const formatCurrency = (amount: number) => {
+    // Ensure amount is a valid number, default to 0 if not
+    const validAmount =
+      typeof amount === "number" && !isNaN(amount) ? amount : 0;
     return new Intl.NumberFormat("en-US", {
       style: "currency",
       currency: "USD",
       minimumFractionDigits: 2,
-    }).format(amount / 100);
+    }).format(validAmount / 100);
   };
 
   return (

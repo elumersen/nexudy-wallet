@@ -13,12 +13,78 @@ This guide will walk you through deploying your NuxWallet project to Vercel.
 
 **Important**: SQLite doesn't work on Vercel's serverless environment. You need PostgreSQL.
 
-### Option A: Use Vercel Postgres (Recommended)
+### Option A: Use Vercel Marketplace Postgres (Recommended)
 
 1. Go to your Vercel dashboard
 2. Navigate to your project → **Storage** tab
-3. Click **Create Database** → Select **Postgres**
-4. Copy the connection string (you'll use this as `DATABASE_URL`)
+3. Click **Create Database** → Browse available database providers
+4. Select a Postgres provider (e.g., **Neon**, **Supabase**, or other available options)
+5. Follow the integration setup steps
+6. Copy the connection string (you'll use this as `DATABASE_URL`)
+
+**Note**: If you don't see Postgres options in Storage, you can also:
+
+- Go to [Vercel Marketplace](https://vercel.com/integrations) → Search for "Postgres" or "Neon"
+- Install the integration and connect it to your project
+- The connection string will be automatically added as `DATABASE_URL` environment variable
+
+#### If You Installed Prisma Postgres:
+
+After connecting Prisma Postgres to your project, you'll see multiple connection strings. Here's what to do:
+
+1. **Create/Update your local `.env.local` file** with the connection string:
+
+   ```env
+   DATABASE_URL="postgres://[your-credentials]@db.prisma.io:5432/postgres?sslmode=require"
+   ```
+
+   **Which connection string to use?**
+
+   - Use the `POSTGRES_URL` value as your `DATABASE_URL` (your Prisma schema expects `DATABASE_URL`)
+   - The `PRISMA_DATABASE_URL` with `prisma+postgres://` is for Prisma Accelerate (optional, for better performance)
+
+2. **Generate Prisma Client** (if you haven't already or after schema changes):
+
+   ```bash
+   npx prisma generate
+   ```
+
+3. **If you're switching from SQLite to PostgreSQL** (you'll see error P3019):
+
+   **First, close Prisma Studio if it's running** (press `Ctrl+C` in the terminal where it's running)
+
+   Then remove the old SQLite migrations:
+
+   ```bash
+   # Delete the migrations directory
+   Remove-Item -Recurse -Force prisma\migrations
+   ```
+
+   Or manually delete the `prisma/migrations` folder in your file explorer.
+
+4. **Run migrations to create your database tables**:
+
+   ```bash
+   npx prisma migrate dev --name init
+   ```
+
+   This will:
+
+   - Create new migration files for PostgreSQL
+   - Apply the migrations to your Prisma Postgres database
+   - Create all your tables (User, Transaction, SavedCard)
+
+5. **Verify the connection** (optional):
+
+   ```bash
+   npx prisma studio
+   ```
+
+   This opens a visual database browser to see your tables.
+
+   **Note**: If you get a "table does not exist" error, make sure migrations ran successfully first.
+
+**Important**: Your Prisma schema is already configured correctly - you don't need to redefine it! Just use the connection strings provided.
 
 ### Option B: Use External PostgreSQL (Supabase, Railway, etc.)
 
@@ -37,6 +103,7 @@ npx prisma migrate deploy
 ## Step 2: Push Your Code to GitHub
 
 1. Initialize git (if not already done):
+
    ```bash
    git init
    git add .
@@ -65,11 +132,13 @@ npx prisma migrate deploy
 ### Method 2: Via Vercel CLI
 
 1. Install Vercel CLI:
+
    ```bash
    npm i -g vercel
    ```
 
 2. Login:
+
    ```bash
    vercel login
    ```
@@ -90,12 +159,12 @@ This is the most important step! You need to add all variables from your `.env.l
 
 #### Required Environment Variables:
 
-| Variable Name | Description | Example |
-|--------------|-------------|---------|
-| `DATABASE_URL` | PostgreSQL connection string | `postgresql://user:pass@host:5432/db?sslmode=require` |
-| `STRIPE_SECRET_KEY` | Your Stripe secret key | `sk_live_...` (production) or `sk_test_...` (testing) |
-| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key | `pk_live_...` (production) or `pk_test_...` (testing) |
-| `STRIPE_WEBHOOK_SECRET` | Stripe webhook signing secret | `whsec_...` |
+| Variable Name                        | Description                   | Example                                               |
+| ------------------------------------ | ----------------------------- | ----------------------------------------------------- |
+| `DATABASE_URL`                       | PostgreSQL connection string  | `postgresql://user:pass@host:5432/db?sslmode=require` |
+| `STRIPE_SECRET_KEY`                  | Your Stripe secret key        | `sk_live_...` (production) or `sk_test_...` (testing) |
+| `NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY` | Your Stripe publishable key   | `pk_live_...` (production) or `pk_test_...` (testing) |
+| `STRIPE_WEBHOOK_SECRET`              | Stripe webhook signing secret | `whsec_...`                                           |
 
 ### Adding Variables:
 
@@ -110,7 +179,7 @@ This is the most important step! You need to add all variables from your `.env.l
 
 ### Important Notes:
 
-- **NEXT_PUBLIC_*** variables are exposed to the browser, so use them carefully
+- **NEXT*PUBLIC*\*** variables are exposed to the browser, so use them carefully
 - **Never commit** `.env.local` to Git
 - Use **production Stripe keys** (`sk_live_` and `pk_live_`) for production
 - Use **test Stripe keys** (`sk_test_` and `pk_test_`) for preview deployments
@@ -152,6 +221,7 @@ Or run migrations manually after deployment using Vercel's CLI or a one-time scr
 
 1. If using GitHub integration, push a new commit or click **Redeploy**
 2. If using CLI, run:
+
    ```bash
    vercel --prod
    ```
@@ -194,6 +264,31 @@ Or run migrations manually after deployment using Vercel's CLI or a one-time scr
 - Server-side variables (without `NEXT_PUBLIC_`) are only available in API routes
 - Redeploy after adding new environment variables
 
+### Migration Provider Switch Error (P3019)
+
+If you see: `The datasource provider 'postgresql' does not match 'sqlite' in migration_lock.toml`
+
+**Solution**:
+
+1. Close Prisma Studio if running (`Ctrl+C`)
+2. Delete the `prisma/migrations` directory
+3. Run `npx prisma migrate dev --name init` again
+
+This happens when switching from SQLite (local) to PostgreSQL (production).
+
+### Prisma Generate Permission Error (EPERM on Windows)
+
+If you see: `EPERM: operation not permitted, rename 'query_engine-windows.dll.node'`
+
+**Solution**:
+
+1. Close Prisma Studio and any running Node processes
+2. Close your IDE/editor temporarily
+3. Run `npx prisma generate` again
+4. If it still fails, restart your computer and try again
+
+This is a Windows file locking issue - another process is using the Prisma engine file.
+
 ## Quick Reference: Environment Variables
 
 Copy these from your `.env.local` and add to Vercel:
@@ -215,7 +310,3 @@ STRIPE_WEBHOOK_SECRET=whsec_your_webhook_secret_here
 ---
 
 **Need Help?** Check [Vercel Documentation](https://vercel.com/docs) or [Next.js Deployment Guide](https://nextjs.org/docs/deployment)
-
-
-
-
