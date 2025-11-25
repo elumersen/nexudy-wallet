@@ -5,7 +5,7 @@ import { useRouter } from "next/navigation";
 import { Elements } from "@stripe/react-stripe-js";
 import { loadStripe } from "@stripe/stripe-js";
 import SavedCards from "../components/SavedCards";
-import { getUser } from "@/lib/auth";
+import { getUser, type User } from "@/lib/auth";
 
 const stripePromise = loadStripe(
   process.env.NEXT_PUBLIC_STRIPE_PUBLISHABLE_KEY!
@@ -13,7 +13,7 @@ const stripePromise = loadStripe(
 
 export default function CardsPage() {
   const router = useRouter();
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {

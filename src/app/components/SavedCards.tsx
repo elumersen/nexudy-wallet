@@ -4,12 +4,9 @@ import { useState, useEffect } from "react";
 import {
   Card,
   CardContent,
-  CardHeader,
-  CardTitle,
-  CardDescription,
 } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
-import { CreditCard, Trash2, Check, Plus, Star, Wifi } from "lucide-react";
+import { CreditCard, Trash2, Plus, Star, Wifi } from "lucide-react";
 import { cn } from "@/lib/utils";
 import Toast from "./Toast";
 import AddCardModal from "./AddCardModal";
@@ -54,6 +51,7 @@ export default function SavedCards({ userEmail }: SavedCardsProps) {
     if (userEmail) {
       fetchCards();
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [userEmail]);
 
   const handleDelete = async (cardId: string) => {

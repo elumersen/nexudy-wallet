@@ -150,7 +150,7 @@ export default function TopupForm({ onSuccess }: TopupFormProps) {
           console.log("Auto-completing pending transactions...");
           try {
             await fetch("/api/auto-complete-pending", { method: "POST" });
-          } catch (err) {
+          } catch {
             console.log("Webhook will handle completion");
           }
           console.log("Refreshing balance and transactions...");

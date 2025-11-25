@@ -26,7 +26,12 @@ export async function POST(req: Request) {
       return NextResponse.json({ error: 'User not found' }, { status: 404 });
     }
 
-    const paymentIntentData: any = {
+    const paymentIntentData: {
+      amount: number;
+      currency: string;
+      metadata: { userId: string };
+      customer?: string;
+    } = {
       amount: amount,
       currency: 'usd',
       metadata: { userId: user.id },
