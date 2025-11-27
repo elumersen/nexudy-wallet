@@ -7,7 +7,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import { Wallet, Mail, Lock, User } from "lucide-react";
+import { Wallet, Mail, Lock, User, Eye, EyeOff } from "lucide-react";
 import { setUser } from "@/lib/auth";
 import Toast from "../components/Toast";
 
@@ -19,6 +19,7 @@ export default function SignupPage() {
     password: "",
   });
   const [loading, setLoading] = useState(false);
+  const [showPassword, setShowPassword] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
@@ -135,7 +136,7 @@ export default function SignupPage() {
               <div className="relative">
                 <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-gray-400" />
                 <Input
-                  type="password"
+                  type={showPassword ? "text" : "password"}
                   id="password"
                   value={formData.password}
                   onChange={(e) =>
@@ -145,8 +146,21 @@ export default function SignupPage() {
                   required
                   minLength={6}
                   disabled={loading}
-                  className="pl-10 h-12 border-2"
+                  className="pl-10 pr-10 h-12 border-2"
                 />
+                <button
+                  type="button"
+                  onClick={() => setShowPassword(!showPassword)}
+                  className="absolute right-3 top-1/2 -translate-y-1/2 text-gray-400 hover:text-gray-600 dark:hover:text-gray-300 focus:outline-none"
+                  disabled={loading}
+                  aria-label={showPassword ? "Hide password" : "Show password"}
+                >
+                  {showPassword ? (
+                    <EyeOff className="w-5 h-5" />
+                  ) : (
+                    <Eye className="w-5 h-5" />
+                  )}
+                </button>
               </div>
               <p className="text-xs text-gray-500 dark:text-gray-400">
                 Must be at least 6 characters
