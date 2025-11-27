@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, FormEvent } from "react";
+import { useState, FormEvent, useEffect } from "react";
 import {
   useStripe,
   useElements,
@@ -8,6 +8,7 @@ import {
   CardExpiryElement,
   CardCvcElement,
 } from "@stripe/react-stripe-js";
+import { useTheme } from "next-themes";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
 import { Label } from "@/components/ui/label";
@@ -27,11 +28,33 @@ export default function AddCardModal({
 }: AddCardModalProps) {
   const stripe = useStripe();
   const elements = useElements();
+  const { theme, resolvedTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
   const [processing, setProcessing] = useState(false);
   const [toast, setToast] = useState<{
     message: string;
     type: "success" | "error";
   } | null>(null);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  const isDark = mounted && (resolvedTheme === "dark" || theme === "dark");
+
+  const stripeElementStyle = {
+    base: {
+      fontSize: "15px",
+      color: isDark ? "#FFFFFF" : "#111827",
+      fontFamily: "system-ui, -apple-system, sans-serif",
+      "::placeholder": {
+        color: isDark ? "#9CA3AF" : "#9CA3AF",
+      },
+    },
+    invalid: {
+      color: "#DC2626",
+    },
+  };
 
   const handleSubmit = async (e: FormEvent) => {
     e.preventDefault();
@@ -146,21 +169,11 @@ export default function AddCardModal({
               </Label>
               <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
                 <CardNumberElement
+                  key={`card-number-${isDark ? "dark" : "light"}`}
                   options={{
-                    style: {
-                      base: {
-                        fontSize: "15px",
-                        color: "#111827",
-                        fontFamily: "system-ui, -apple-system, sans-serif",
-                        "::placeholder": {
-                          color: "#9CA3AF",
-                        },
-                      },
-                      invalid: {
-                        color: "#DC2626",
-                      },
-                    },
+                    style: stripeElementStyle,
                     showIcon: true,
+                    disableLink: true,
                   }}
                 />
               </div>
@@ -176,20 +189,9 @@ export default function AddCardModal({
                 </Label>
                 <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
                   <CardExpiryElement
+                    key={`card-expiry-${isDark ? "dark" : "light"}`}
                     options={{
-                      style: {
-                        base: {
-                          fontSize: "15px",
-                          color: "#111827",
-                          fontFamily: "system-ui, -apple-system, sans-serif",
-                          "::placeholder": {
-                            color: "#9CA3AF",
-                          },
-                        },
-                        invalid: {
-                          color: "#DC2626",
-                        },
-                      },
+                      style: stripeElementStyle,
                     }}
                   />
                 </div>
@@ -204,20 +206,9 @@ export default function AddCardModal({
                 </Label>
                 <div className="rounded-md border border-gray-300 dark:border-gray-700 p-3 bg-white dark:bg-gray-950 focus-within:border-gray-900 dark:focus-within:border-gray-300 transition-colors">
                   <CardCvcElement
+                    key={`card-cvc-${isDark ? "dark" : "light"}`}
                     options={{
-                      style: {
-                        base: {
-                          fontSize: "15px",
-                          color: "#111827",
-                          fontFamily: "system-ui, -apple-system, sans-serif",
-                          "::placeholder": {
-                            color: "#9CA3AF",
-                          },
-                        },
-                        invalid: {
-                          color: "#DC2626",
-                        },
-                      },
+                      style: stripeElementStyle,
                     }}
                   />
                 </div>
