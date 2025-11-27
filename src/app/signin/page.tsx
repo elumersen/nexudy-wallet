@@ -10,6 +10,7 @@ import { Label } from "@/components/ui/label";
 import { Wallet, Mail, Lock, Eye, EyeOff } from "lucide-react";
 import { setUser } from "@/lib/auth";
 import Toast from "../components/Toast";
+import { ThemeToggle } from "../components/ThemeToggle";
 
 export default function SigninPage() {
   const router = useRouter();
@@ -63,6 +64,9 @@ export default function SigninPage() {
 
   return (
     <div className="min-h-screen flex items-center justify-center p-6 bg-gradient-to-br from-green-50 to-emerald-50 dark:from-gray-950 dark:to-gray-900">
+      <div className="absolute top-6 right-6">
+        <ThemeToggle />
+      </div>
       {toast && (
         <Toast
           message={toast.message}

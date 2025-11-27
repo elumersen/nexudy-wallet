@@ -7,9 +7,10 @@ import { Elements } from "@stripe/react-stripe-js";
 import BalanceCard from "./BalanceCard";
 import TopupForm from "./TopupForm";
 import TransactionHistory from "./TransactionHistory";
-import { getUser, clearUser, User } from "@/lib/auth";
+import { getUser, User } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
-import { LogOut } from "lucide-react";
+import { User as UserIcon } from "lucide-react";
+import ProfileModal from "./ProfileModal";
 
 interface Transaction {
   id: string;
@@ -29,6 +30,7 @@ export default function WalletDashboard() {
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
   const [user, setUser] = useState<User | null>(null);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
 
   const fetchBalance = async (userEmail: string) => {
     try {
@@ -86,11 +88,6 @@ export default function WalletDashboard() {
     }
   };
 
-  const handleLogout = () => {
-    clearUser();
-    router.push("/signin");
-  };
-
   if (loading || !user) {
     return (
       <div className="min-h-screen flex items-center justify-center bg-gradient-to-br from-gray-50 to-gray-100 dark:from-gray-950 dark:to-gray-900">
@@ -116,11 +113,23 @@ export default function WalletDashboard() {
               Here&apos;s your wallet overview
             </p>
           </div>
-          <Button onClick={handleLogout} variant="outline" className="border-2">
-            <LogOut className="w-4 h-4 mr-2" />
-            Logout
+          <Button
+            onClick={() => setIsProfileOpen(true)}
+            variant="outline"
+            className="border-2"
+            aria-label="Open profile"
+          >
+            <UserIcon className="w-4 h-4 mr-2" />
+            Profile
           </Button>
         </div>
+
+        <ProfileModal
+          user={user}
+          balance={balance}
+          open={isProfileOpen}
+          onOpenChange={setIsProfileOpen}
+        />
 
         <div className="grid gap-6 lg:grid-cols-3">
           <div className="lg:col-span-1">

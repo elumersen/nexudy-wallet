@@ -14,6 +14,7 @@ import {
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 import { clearUser } from "@/lib/auth";
+import { ThemeToggle } from "./ThemeToggle";
 
 interface SidebarProps {
   className?: string;
@@ -101,10 +102,10 @@ export default function Sidebar({ className }: SidebarProps) {
             {!isCollapsed && (
               <div className="min-w-0">
                 <h1 className="text-xl font-bold text-gray-900 dark:text-white truncate">
-                  NuxWallet
+                  Nux-Wallet
                 </h1>
                 <p className="text-xs text-gray-500 dark:text-gray-400 font-medium">
-                  Digital Banking
+                  Digital Wallet
                 </p>
               </div>
             )}
@@ -143,7 +144,26 @@ export default function Sidebar({ className }: SidebarProps) {
             </div>
           </nav>
 
-          <div className="p-3 border-t border-gray-200 dark:border-gray-800">
+          <div className="p-3 border-t border-gray-200 dark:border-gray-800 space-y-2">
+            <div
+              className={cn(
+                "flex items-center gap-3 px-4 py-3 rounded-lg",
+                isCollapsed && "justify-center"
+              )}
+            >
+              {isCollapsed ? (
+                <ThemeToggle />
+              ) : (
+                <>
+                  <span className="text-sm text-gray-600 dark:text-gray-400">
+                    Theme
+                  </span>
+                  <div className="ml-auto">
+                    <ThemeToggle />
+                  </div>
+                </>
+              )}
+            </div>
             <button
               onClick={handleLogout}
               className={cn(
