@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TransactionHistory from "../components/TransactionHistory";
-import { getUser, User } from "@/lib/auth";
+import { getUser } from "@/lib/auth";
 
 interface Transaction {
   id: string;

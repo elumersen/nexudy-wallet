@@ -26,7 +26,9 @@ export async function POST() {
           transaction.stripePaymentIntentId
         );
 
-        if (paymentIntent.status === 'succeeded') {
+        const status = paymentIntent.status as string;
+        
+        if (status === 'succeeded') {
           await prisma.$transaction(async (tx) => {
             await tx.user.update({
               where: { id: transaction.userId },
@@ -44,7 +46,7 @@ export async function POST() {
           });
 
           completed++;
-        } else if (paymentIntent.status === 'canceled' || paymentIntent.status === 'failed') {
+        } else if (status === 'canceled' || status === 'failed') {
           await prisma.transaction.update({
             where: { id: transaction.id },
             data: { status: 'FAILED' },
