@@ -3,7 +3,7 @@
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
 import TransactionHistory from "../components/TransactionHistory";
-import { getUser } from "@/lib/auth";
+import { getUser, User } from "@/lib/auth";
 
 interface Transaction {
   id: string;
@@ -17,7 +17,6 @@ export default function TransactionsPage() {
   const router = useRouter();
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     const currentUser = getUser();
@@ -25,8 +24,6 @@ export default function TransactionsPage() {
       router.push("/signin");
       return;
     }
-
-    setUser(currentUser);
 
     const fetchTransactions = async () => {
       try {

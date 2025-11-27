@@ -7,7 +7,7 @@ import { Elements } from "@stripe/react-stripe-js";
 import BalanceCard from "./BalanceCard";
 import TopupForm from "./TopupForm";
 import TransactionHistory from "./TransactionHistory";
-import { getUser, clearUser } from "@/lib/auth";
+import { getUser, clearUser, User } from "@/lib/auth";
 import { Button } from "@/components/ui/button";
 import { LogOut } from "lucide-react";
 
@@ -28,7 +28,7 @@ export default function WalletDashboard() {
   const [balance, setBalance] = useState<number>(0);
   const [transactions, setTransactions] = useState<Transaction[]>([]);
   const [loading, setLoading] = useState(true);
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<User | null>(null);
 
   const fetchBalance = async (userEmail: string) => {
     try {
@@ -113,7 +113,7 @@ export default function WalletDashboard() {
               Welcome back, {user.fullname}
             </h1>
             <p className="text-gray-600 dark:text-gray-400">
-              Here's your wallet overview
+              Here&apos;s your wallet overview
             </p>
           </div>
           <Button onClick={handleLogout} variant="outline" className="border-2">
